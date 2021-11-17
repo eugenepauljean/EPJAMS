@@ -17,6 +17,7 @@ ask_select_mirrors () {
         then
             reflector > /etc/pacman.d/mirrorlist.latestupdate
             sed -i 50q /etc/pacman.d/mirrorlist.latestupdate
+            clear
             echo -e "\033[31;5mMirrorlist test in progress...waiting 45 seconds....\033[0m"
             rankmirrors -n 10 /etc/pacman.d/mirrorlist.latestupdate > /etc/pacman.d/mirrorlist
         else
