@@ -109,7 +109,7 @@ create_partition () {
             parted -s /dev/$disknametarget mklabel msdos
             parted -s /dev/$disknametarget mkpart primary ext4 1MiB 150MiB
             parted -s /dev/$disknametarget set 1 boot on
-            parted -s /dev/$disknametarget mkpart primary 150MiB 100%
+            parted -s /dev/$disknametarget mkpart primary ext4 150MiB 100%
             mkfs.ext4 /dev/${disknametarget}${part1}
             mkfs.ext4 /dev/${disknametarget}${part2}
             mount /dev/${disknametarget}${part2} /mnt
@@ -118,7 +118,8 @@ create_partition () {
         fi
 }
 essential_packages () {
-        pacstrap /mnt base linux linux-firmware grub nano
+        pacstrap /mnt base linux linux-firmware grub nano dhcpcd
+        arch-chroot /mnt bash -c "systemctl enable dhcpcd.service"
         cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 }
 detect_cpu () {
